@@ -43,6 +43,17 @@ export const getStaticProps = async () => {
     },
   }));
   await Blog.bulkWrite(blogBulkUpdateArray);
+
+  const project = {
+    _id: 0,
+    _v: 0,
+    content: 0,
+  };
+  const topBlogResult = await Blog.find({}, project)
+    .sort("-totalViews")
+    .limit(10);
+
+  console.log(topBlogResult);
   return {
     props: {},
   };
