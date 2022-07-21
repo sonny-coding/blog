@@ -1,5 +1,6 @@
 import React from "react";
-import { Image } from "@chakra-ui/react";
+// import { Image } from "@chakra-ui/react";
+import Image from "next/image";
 import { nanoid } from "nanoid";
 import {
   Flex,
@@ -31,11 +32,11 @@ function BlogPreviewCard({
         <Box w="100%">
           <Image
             src={banner}
-            alt={altText}
-            width={800}
-            height={450}
+            width={16}
+            height={9}
             layout="responsive"
-            //   objectFit="cover"
+            alt={altText}
+            objectFit="cover"
           />
         </Box>
         {/* <Heading>Lorem ipsum dolor sit amet. </Heading> */}

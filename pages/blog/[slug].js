@@ -1,14 +1,32 @@
 import React from "react";
 import dbConnect from "../../mongoose/connectDB";
 import Blog from "../../mongoose/models/Blog";
+import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote } from "next-mdx-remote";
+import BlogHead from "../../components/BlogHead";
 
-function BlogPage() {
-  return <div>BlogPage</div>;
+function BlogPage({ mdxSource, blogData }) {
+  return (
+    <>
+      <BlogHead {...blogData} />
+      <MDXRemote {...mdxSource} />;
+    </>
+  );
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ params: { slug } }) => {
+  await dbConnect();
+  // projection
+  const project = {
+    _id: 0,
+    _v: 0,
+  };
+  const result = await Blog.findOne({ slug }, project);
+  const { content, createdAt, ...blogData } = result.toObject();
+  const mdxSource = await serialize(content);
+  blogData.createdAt = createdAt.toDateString();
   return {
-    props: {},
+    props: { mdxSource, blogData },
   };
 };
 export const getStaticPaths = async () => {
@@ -19,7 +37,7 @@ export const getStaticPaths = async () => {
       slug: item.slug,
     },
   }));
-  //   console.log(paths);
+
   return {
     paths,
     fallback: false,
