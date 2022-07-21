@@ -24,7 +24,7 @@ function BlogPreviewCard({
   totalViews,
   customID,
 }) {
-  const link = `/blogs/${slug}`;
+  const link = `/blog/${slug}`;
   return (
     <>
       <VStack as={LinkBox} align="start" spacing="1rem" mb="2rem">
