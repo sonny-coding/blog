@@ -9,12 +9,12 @@ import readingTime from "reading-time";
 import Blog from "../mongoose/models/Blog";
 
 const Home = ({ topBlogs, recentBlogs }) => {
-  console.log(topBlogs, recentBlogs);
   return (
     <>
       <Head>
-        <title>Sonny</title>
+        <title>Cules Blog</title>
       </Head>
+
       <BlogPreviewList header="Top Blogs" blogs={topBlogs} />
       <BlogPreviewList header="Recent Blogs" blogs={recentBlogs} />
     </>
@@ -35,7 +35,7 @@ export const getStaticProps = async () => {
 
     return data;
   });
-  /* save all blogs */
+
   const blogBulkUpdateArray = AllParsedData.map((blog) => ({
     updateOne: {
       filter: { customID: blog.customID },
@@ -46,31 +46,32 @@ export const getStaticProps = async () => {
   }));
   await Blog.bulkWrite(blogBulkUpdateArray);
 
-  /* find the top blogs by views */
   const project = {
     _id: 0,
     _v: 0,
     content: 0,
   };
-  const topBlogResult = await Blog.find({}, project)
+  const limit = 10;
+
+  const topBlogsResult = await Blog.find({}, project)
     .sort("-totalViews")
-    .limit(10);
-  const recentBlogResult = await Blog.find({}, project)
+    .limit(limit);
+
+  const recentBlogsResult = await Blog.find({}, project)
     .sort("-createdAt")
-    .limit(10);
+    .limit(limit);
 
-  const topBlogs = topBlogResult.map((blog) => {
-    const blogObject = blog.toObject();
-    blogObject.createdAt = blogObject.createdAt.toDateString();
-    return blogObject;
-  });
-  const recentBlogs = recentBlogResult.map((blog) => {
+  const topBlogs = topBlogsResult.map((blog) => {
     const blogObject = blog.toObject();
     blogObject.createdAt = blogObject.createdAt.toDateString();
     return blogObject;
   });
 
-  // console.log(topBlogs, recentBlogs);
+  const recentBlogs = recentBlogsResult.map((blog) => {
+    const blogObject = blog.toObject();
+    blogObject.createdAt = blogObject.createdAt.toDateString();
+    return blogObject;
+  });
   return {
     props: { topBlogs, recentBlogs },
   };
