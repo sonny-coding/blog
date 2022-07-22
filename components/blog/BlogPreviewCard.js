@@ -13,6 +13,7 @@ import {
   LinkOVerlay,
 } from "@chakra-ui/react";
 import ChakraNextLink, { ChakraButtonLink } from "../ChakraLink";
+import useGetViews from "../../hooks/useGetViews";
 
 function BlogPreviewCard({
   banner,
@@ -26,6 +27,7 @@ function BlogPreviewCard({
   customID,
 }) {
   const link = `/blog/${slug}`;
+  const { data: views } = useGetViews(customID, totalViews);
   return (
     <>
       <VStack as={LinkBox} align="start" spacing="1rem" mb="2rem">
@@ -46,7 +48,7 @@ function BlogPreviewCard({
 
         <HStack spacing="1rem" wrap="wrap" textTransform="uppercase">
           <Text>{createdAt}</Text>
-          <Text>{totalViews} views</Text>
+          <Text>{views} views</Text>
           <Text>{readingTime}</Text>
         </HStack>
         <Text noOfLines={3}>{description}</Text>

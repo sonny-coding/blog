@@ -12,7 +12,7 @@ const Home = ({ topBlogs, recentBlogs }) => {
   return (
     <>
       <Head>
-        <title>Cules Blog</title>
+        <title>Sonny Blog</title>
       </Head>
 
       <BlogPreviewList header="Top Blogs" blogs={topBlogs} />
