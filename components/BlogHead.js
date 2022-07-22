@@ -9,7 +9,6 @@ function BlogHead({
   createdAt,
   readingTime,
   totalViews,
-  customID,
 }) {
   return (
     <>

@@ -4,12 +4,13 @@ import Blog from "../../mongoose/models/Blog";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 import BlogHead from "../../components/BlogHead";
+import MdxComponents from "../../components/MDX/MdxComponent";
 
 function BlogPage({ mdxSource, blogData }) {
   return (
     <>
       <BlogHead {...blogData} />
-      <MDXRemote {...mdxSource} />;
+      <MDXRemote {...mdxSource} components={MdxComponents} />;
     </>
   );
 }
