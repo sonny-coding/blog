@@ -6,6 +6,7 @@ const handler = async (req, res) => {
     method,
     query: { customID },
   } = req;
+
   const errorMessage = "Error has occured";
 
   try {
@@ -24,11 +25,11 @@ const handler = async (req, res) => {
       );
       if (update.modifiedCount) return res.status(200).json({ success: true });
       return res.status(400).send({ errorMessage });
+    } else if (method === "GET") {
+      const document = await Blog.findOne({ customID }, "totalViews");
+      if (!document) return res.status(400).send({ errorMessage });
+      return res.status(200).json({ totalViews: document.totalViews });
     }
-
-    const document = await Blog.findOne({ customID }, "totalViews");
-    if (!document) return res.status(400).send({ errorMessage });
-    return res.status(200).json({ totalViews: document.totalViews });
   } catch (_) {
     return res.status(400).send({ errorMessage });
   }

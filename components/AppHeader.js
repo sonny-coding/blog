@@ -4,10 +4,21 @@ import { Flex, Spacer, Box, IconButton } from "@chakra-ui/react";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import AppDrawer from "./AppDrawer";
 import ChakraNextLink from "./ChakraLink";
+import Search from "./Search";
 
 const CustomIconButton = ({ Icon, ...props }) => {
   return <IconButton icon={<Icon />} {...props} size="lg" ml="1rem" />;
 };
+const SearchButton = () => {
+  const { onOpen, ...others } = useDisclosure();
+  return (
+    <>
+      <CustomIconButton onClick={onOpen} Icon={SearchIcon} />
+      <Search {...others} />
+    </>
+  );
+};
+
 const HamburgerNav = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -42,7 +53,7 @@ function AppHeader() {
       <Flex alignItems="center">
         <Logo />
         <Spacer />
-        <CustomIconButton Icon={SearchIcon} />
+        <SearchButton />
         {/* <CustomIconButton Icon={HamburgerIcon} /> */}
         <HamburgerNav />
       </Flex>
